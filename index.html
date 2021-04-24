@@ -14,7 +14,20 @@
 
     <body>
         <div id="app">
-            
+            <ul> 
+                <li> <h2> direktorijumi </h2></li>
+                <li v-for="(dir, i) in directoriums" @click="load(dir.path)"> 
+                    {{ dir.name }} {{ dir.path }}
+                </li>
+            </ul>
+
+            <ul> 
+                <li> <h2> fajlovi </h2></li>
+                <li v-for="(file, i) in files"> 
+                    {{ file.name }} {{ file.path }}
+
+                </li>
+            </ul>
         </div>
 
         <script src="src/vendor/js/vue.js"> </script>
