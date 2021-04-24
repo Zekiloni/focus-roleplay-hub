@@ -27,20 +27,33 @@ let app = new Vue({
             fetch(this.repo + 'contents/' + page, { method: 'get', headers: new Headers({ 'Authorization': 'token ' + this.token, 'Content-Type': 'none' }) }) 
                 .then(response => response.json())
                 .then(data => this.stack(data))
+                .catch(error => console.log('GRESKA !', error));
         },
 
         stack: function (docs) { 
             console.log(docs)
             this.files = [], this.directoriums = [];
-            for (let i of docs) { 
-                if (i.type === 'file') { 
-                    this.files.push({ name: i.name, path: i.path });
-                } else if (i.type === 'dir') { 
-                    this.directoriums.push({ name: i.name, path: i.path });
+            if (docs.length > 1) { 
+                for (let i of docs) { 
+                    if (i.type === 'file') { 
+                        this.files.push({ name: i.name, path: i.path });
+                    } else if (i.type === 'dir') { 
+                        this.directoriums.push({ name: i.name, path: i.path });
+                    }
                 }
+            } else { 
+                this.file(docs.download_url)
             }
+        },
 
+        file: function (x) { 
+            console.log(x)
+            fetch(x, { method: 'get'})
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('GRESKA !', error));
         }
+        
 
 
     }
